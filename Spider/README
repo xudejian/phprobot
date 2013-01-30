@@ -1,0 +1,110 @@
+Hi!
+
+So what is this? It is a robot written in PHP for crawl web pages.
+The program can only be executed from the command line. 
+You need do some configuration manually.
+
+You will need php-curl pdo and mysql in order to run this program,
+rename demo.site.config as site.config, rewrite it for your project.
+
+There are two operations to control its running.
+
+-run:
+php PhpRobot.php standalone
+
+-stop:
+touch spider.stop
+(you should wait for a moment.)
+
+I hope the phprobot can be helpful for you.
+
+If you have some questions, please contact me.
+
+Cheers,
+  -DJ Xu
+
+抓取代码结构和部署说明
+
+代码结构
+
+	保存数据的文件夹
+	./data
+	./Spider/data  指向上面那个文件夹
+	./Newdata
+
+	分析代码的文件存放地
+	./Parser
+	./Parser/Product360buy.php
+	./Parser/ProductVipshop.php
+	./Parser/ProductCoo8.php
+	./Parser/Product51buy.php
+	./Parser/ProductLetao.php
+	./Parser/ProductDangdang.php
+	./Parser/ProductBookBookschina.php
+	./Parser/ProductWomai.php
+	./Parser/ProductRedbaby.php
+	./Parser/ProductNewegg.php
+	./Parser/ProductYintai.php
+	./Parser/ProductGome.php
+	./Parser/ProductBookWinxuan.php
+	./Parser/ProductNo5.php
+	./Parser/ProductM18.php
+	./Parser/ProductXiu.php
+	./Parser/ProductJumei.php
+	./Parser/ProductAmazon.php
+	./Parser/ProductSuning.php
+	./Parser/Factory.php
+	./Parser/ProductVancl.php
+	./Parser/ProductYihaodian.php
+	./Parser/ProductAbstract.php
+	./Parser/ProductMoonbasa.php
+	./Parser/ProductBook99read.php
+	./Parser/ProductVjia.php
+	./Parser/ProductLamiu.php
+	./Parser/ProductMbaobao.php
+
+	导入数据库的代码文件
+	./DbImporter
+	./DbImporter/DBI.new.daemon.sh
+	./DbImporter/DBI.newdata.php
+	./DbImporter/NewImage.php
+
+	日志文件夹
+	./log
+
+	独立出来的函数
+	./Library
+	./Library/Python
+	./Library/Db.php
+	./Library/Log.php
+	./Config
+	./Config/Config.php
+	./Crawler
+	./Crawler/Http.php
+	./Crawler/HttpTest.php
+	./Utility
+	./Utility/Http.php
+	./Utility/ContentFilter.php
+
+	采集程序的主要PHP文件
+	./Spider
+	./Spider/site.js
+	./Spider/forp.sh
+	./Spider/update.php
+	./Spider/PhpRobot.php
+	./Spider/spider.sh
+	./Spider/forParser.php
+
+部署说明
+	在一个独立文件夹下，复制上述文件。
+	创建数据库 假设名字为AAAA
+	修改./Spider/site.js 如下配置
+	"db_dsn":"mysql:host=localhost;dbname=数据库",
+	"db_username":"数据库用户",
+	"db_password":"数据库密码",
+	
+	分别执行
+	chmod +x ./Spider/forp.sh ./Spider/spider.sh ./DbImporter/DBI.new.daemon.sh
+	nohup ./Spider/forp.sh >/dev/null 2>&1 &
+	nohup ./DbImporter/DBI.new.daemon.sh >/dev/null 2>&1 &
+	nohup ./Spider/spider.sh >/dev/null 2>&1 &

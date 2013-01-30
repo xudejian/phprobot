@@ -1,0 +1,28 @@
+select a.*,b.name from (select site_id,count(*) as count from data_products group by site_id) a, data_sites b where a.site_id=b.id;
+
++---------+---------+-----------+
+| site_id | count   | name      |
++---------+---------+-----------+
+|       1 | 2158475 | 360buy    |
+|       2 |  860177 | dangdang  |
+|       3 |  174545 | yintai    |
+|       4 |    1466 | jumei     |
+|       5 |  273540 | yihaodian |
+|       6 |   13482 | vjia      |
+|       7 |   43295 | suning    |
+|       8 |   25667 | newegg    |
+|       9 |   29137 | coo8      |
+|      10 |   27331 | 51buy     |
+|      11 |    6230 | no5       |
+|      12 |   22421 | redbaby   |
+|      13 |   41337 | xiu       |
+|      14 |   26547 | m18       |
+|      15 |    6773 | womai     |
+|      16 |     689 | lamiu     |
+|      17 |    1198 | letao     |
+|      18 |    6065 | vipshop   |
+|      19 |    2843 | mbaobao   |
+|      20 |    7180 | vancl     |
+|      21 |    9544 | amazon    |
+|      22 |    2091 | moonbasa  |
++---------+---------+-----------+
