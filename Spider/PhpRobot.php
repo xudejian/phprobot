@@ -419,14 +419,14 @@ ____SQL;
 		return $info;
 	}
 
-	private static function getHttpFileContent($url, $retry=0) {
+	private static function getHttpFileContent($url, $retry=0, $follow=FALSE) {
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept-Encoding: gzip,deflate'));
 		curl_setopt($ch, CURLOPT_ENCODING, TRUE);
 		curl_setopt($ch, CURLOPT_HEADER, FALSE);
 		curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, FALSE);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, $follow);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($ch, CURLOPT_USERAGENT, "Robot(kolja)");
 		do {
@@ -441,9 +441,12 @@ ____SQL;
 	}
 
 	private function parse_sitemap($site_id, $url) {
-		$content = self::getHttpFileContent($url, 3);
+		$content = self::getHttpFileContent($url, 3, TRUE);
 		if ($content === FALSE) {
 			return;
+		}
+		if (!strcmp(substr($content, 0, 2), "\x1f\x8b")) {
+			$content = gzinflate(substr($content, 10));
 		}
 		$c = preg_match_all('#<url>(.+)</url>#iUms', $content, $url);
 		for($i=0; $i<$c; ++$i) {
