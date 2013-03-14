@@ -241,7 +241,7 @@ ____SQL;
 	}
 
 	private function curl_pop($site_id) {
-		if (is_array($this->curl_pool[$site_id]) && !empty($this->curl_pool[$site_id])) {
+		if (isset($this->curl_pool[$site_id]) && !empty($this->curl_pool[$site_id])) {
 			return array_shift($this->curl_pool[$site_id]);
 		}
 		return curl_init();
