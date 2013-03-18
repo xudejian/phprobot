@@ -18,6 +18,7 @@ class PhpRobot {
 	private $curl_pool;
 	static private $cur_time;
 	static private $cur_hour;
+	static private $cookie = dirname(__FILE__) . '/cookie.txt';
 
 	public function __construct($configfile = 'site.js') {
 		//xhprof_enable(/*XHPROF_FLAGS_CPU +*/ XHPROF_FLAGS_MEMORY);
@@ -162,8 +163,11 @@ class PhpRobot {
 			CURLOPT_ENCODING=>TRUE,
 			CURLOPT_HEADER=>FALSE,
 			CURLOPT_RETURNTRANSFER=>TRUE,
+			CURLOPT_AUTOREFERER=>TRUE,
 			CURLOPT_FOLLOWLOCATION=>FALSE,
 			CURLOPT_TIMEOUT=>30,
+			CURLOPT_COOKIEJAR => self::$cookie,
+			CURLOPT_COOKIEFILE => self::$cookie,
 			CURLOPT_USERAGENT=>$this->config->useragent
 		);
 
@@ -428,6 +432,8 @@ ____SQL;
 		curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, $follow);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_COOKIEJAR, self::$cookie);
+		curl_setopt($ch, CURLOPT_COOKIEFILE, self::$cookie);
 		curl_setopt($ch, CURLOPT_USERAGENT, "Robot(kolja)");
 		do {
 			$data = curl_exec($ch);
